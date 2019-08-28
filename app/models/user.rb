@@ -5,6 +5,8 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
   has_secure_password
+  
+  has_many :microposts
 end
 
 #password_digest カラムを用意し、モデルファイルに has_secure_password を記述すれば、
