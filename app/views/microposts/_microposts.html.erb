@@ -1,7 +1,7 @@
 <ul class="list-unstyled">
   <% microposts.each do |micropost| %>
     <li class="media mb-3">
-      <img class="mr-2 rounded" src="<%= gravatar_url(micropost.user, { size: 50 }) %>" alt="">
+      <img class="mr-2 rounded" src="<%= gravatar_url(micropost.user, { size: 80 }) %>" alt="">
       <div class="media-body">
         <div>
           <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
@@ -9,10 +9,12 @@
         <div>
           <p class="mb-0"><%= micropost.content %></p>
         </div>
-        <div>
+        <div style="display: flex;">
           <% if current_user == micropost.user %>
-            <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+            <%= link_to "削除", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
           <% end %>
+          <!-- <%# render 'パーシャルのパス', パーシャルで使う変数名: 変数に代入する値 %> -->
+          <%= render 'favorites/addfavorits_button', micropost: micropost %>
         </div>
       </div>
     </li>

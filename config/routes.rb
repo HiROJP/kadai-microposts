@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   root to: 'toppages#index'
 
   get 'login', to: 'sessions#new'
@@ -10,6 +11,7 @@ Rails.application.routes.draw do
     member do
       get :followings
       get :followers
+      get :likes
     end
   end
 
@@ -17,4 +19,8 @@ Rails.application.routes.draw do
   resources :relationships, only: [:create, :destroy]
   #ログインユーザがユーザをフォロー／アンフォローできるようにするルーティングは、 
   #resources :relationships, only: [:create, :destroy] です。
+  resources :favorites, only: [:create, :destroy]
+  
 end
+
+

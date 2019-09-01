@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
   
+  
   #↓has_many_through↓
   #↓user（ユーザ） → relationships（フォロー（中間テーブル）） → user2（ユーザ）↓
   #through: :rekatuibshuos, source: :follow
@@ -36,8 +37,32 @@ class User < ApplicationRecord
     Micropost.where(user_id: self.following_ids + [self.id])
   end
   
+  
+  has_many :favorites
+  has_many :addfavorits, through: :favorites, source: :micropost #
+  has_many :reverses_of_favorite, class_name: 'favorite', foreign_key: 'micropost_id'
+  #has_many :favorit_user, through: :reverses_of_favorite, source: :user
+  
+  def favorit(micropost)
+    favorites.find_or_create_by(micropost_id: micropost.id)
+  end
+  
+  def unfavorit(micropost)
+    favorit = self.favorites.find_by(micropost_id: micropost.id)
+    favorit.destroy if favorit
+  end
+  
+  def addfavorit?(micropost)
+    self.addfavorits.include?(micropost)
+  end
+  
 end
   
+#id = Micropost.find(1)
+
+#user = User.find(4)
+#id = Micropost.find(2)
+#user.addfavorit?(id)
 
 #password_digest カラムを用意し、モデルファイルに has_secure_password を記述すれば、
 #ログイン認証のための準備を良しなに用意してくれると覚えておきましょう。
@@ -51,3 +76,5 @@ end
 #見つかれば Relationshipモデル（クラス）のインスタンスを返し、
 #見つからなければ self.relationships.create(follow_id: other_user.id) としてフォロー関係を保存(create = build + save)することができます。
 #これにより、既にフォローされている場合にフォローが重複して保存されることがなくなります。
+
+
