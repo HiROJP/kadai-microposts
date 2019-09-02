@@ -6,7 +6,7 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   
-  has_many :microposts
+  has_many :microposts, dependent: :destroy
   has_many :relationships
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
@@ -38,9 +38,9 @@ class User < ApplicationRecord
   end
   
   
-  has_many :favorites
-  has_many :addfavorits, through: :favorites, source: :micropost #
-  has_many :reverses_of_favorite, class_name: 'favorite', foreign_key: 'micropost_id'
+  has_many :favorites, dependent: :destroy
+  has_many :addfavorits, through: :favorites, source: :micropost , dependent: :destroy
+  #has_many :reverses_of_favorite, class_name: 'favorite', foreign_key: 'micropost_id'
   #has_many :favorit_user, through: :reverses_of_favorite, source: :user
   
   def favorit(micropost)

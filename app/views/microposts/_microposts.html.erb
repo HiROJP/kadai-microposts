@@ -10,9 +10,11 @@
           <p class="mb-0"><%= micropost.content %></p>
         </div>
         <div style="display: flex;">
+          
           <% if current_user == micropost.user %>
-            <%= link_to "削除", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+              <%= link_to "削除", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
           <% end %>
+          
           <!-- <%# render 'パーシャルのパス', パーシャルで使う変数名: 変数に代入する値 %> -->
           <%= render 'favorites/addfavorits_button', micropost: micropost %>
         </div>
